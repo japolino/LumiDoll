@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0",
+  "name": "Doll",
+  "identifier": "doll",
+  "author": "japolino",
+  "github": "https://github.com/japolino/warp-doll",
+  "homepage": "https://github.com/japolino/warp-doll",
+  "description": "A drawn figure for you and the person you're with in the story, dressed from your persona, the character's card and lorebook, a description, or the latest replies. Works on its own; follows Warp's scene when Warp is installed.",
+  "permissions": [
+    "generation",
+    "chat_mutation",
+    "chats",
+    "characters",
+    "world_books",
+    "cors_proxy",
+    "ui_panels"
+  ],
+  "entry_backend": "dist/backend.js",
+  "entry_frontend": "dist/frontend.js",
+  "minimum_lumiverse_version": "0.1.0"
+}
