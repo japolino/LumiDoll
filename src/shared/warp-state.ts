@@ -1,6 +1,6 @@
 // Warp's public scene state (the warp-state-v1 window event), read defensively.
 // Warp publishes it whenever its state for the open chat changes and when asked
-// with warp-state-request-v1. The Doll works the same without it.
+// with warp-state-request-v1. LumiDoll works the same without it.
 
 export const WARP_STATE = "warp-state-v1";
 export const WARP_STATE_REQUEST = "warp-state-request-v1";
@@ -44,7 +44,7 @@ export function cleanWarpState(detail: unknown): WarpStateV1 | null {
   };
 }
 
-/** Warp is running a game in this chat (it knows people or what you wear), so the Doll follows it instead of reading the story itself. */
+/** Warp is running a game in this chat (it knows people or what you wear), so LumiDoll follows it instead of reading the story itself. */
 export const warpDrives = (s: WarpStateV1 | null | undefined): boolean => !!s && (s.people.length > 0 || !!s.you.appearance || !!s.you.outfit);
 
 /** The people Warp says are with the player. */

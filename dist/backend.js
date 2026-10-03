@@ -1803,7 +1803,7 @@ function send(msg, userId) {
 }
 function toast(level, message, userId) {
   try {
-    spindle.toast[level](message, { title: "Doll", ...userId ? { userId } : {} });
+    spindle.toast[level](message, { title: "LumiDoll", ...userId ? { userId } : {} });
   } catch {}
 }
 function logError(where, err) {
@@ -2656,6 +2656,6 @@ spindle.onFrontendMessage(async (raw, userId) => {
     }
   } catch (e) {
     logError(`frontend ${msg.type}`, e);
-    toast("error", `Doll: ${e instanceof Error ? e.message : String(e)}`, userId);
+    toast("error", `LumiDoll: ${e instanceof Error ? e.message : String(e)}`, userId);
   }
 });

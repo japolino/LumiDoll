@@ -2588,7 +2588,7 @@ function createDollLab(o) {
       return null;
     ensure();
     const name = chat.chatId === loadedFor && chat.user ? chat.user : "You";
-    return { title: name, body: `<div class="doll-scene"><div class="doll-hud">${renderDoll2(st.you, { id: "hud" })}</div><div class="doll-scene-foot"><span>${busy.has(busyKey("you")) ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="you" title="Open your doll in the Doll tab">Edit</button></div></div>` };
+    return { title: name, body: `<div class="doll-scene"><div class="doll-hud">${renderDoll2(st.you, { id: "hud" })}</div><div class="doll-scene-foot"><span>${busy.has(busyKey("you")) ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="you" title="Open your doll in the LumiDoll tab">Edit</button></div></div>` };
   }
   function sceneSection() {
     if (!prefs.scene)
@@ -2597,7 +2597,7 @@ function createDollLab(o) {
     const people = here();
     const who = sceneFocus(people, st.pin, st.focus);
     if (!who) {
-      const hint = warp() ? "No one's with you right now." : "No one yet. Dress someone in the Doll tab, or open a chat with a character.";
+      const hint = warp() ? "No one's with you right now." : "No one yet. Dress someone in the LumiDoll tab, or open a chat with a character.";
       return { title: "With you", body: `<div class="doll-scene"><p class="doll-dim">${hint}</p></div>` };
     }
     const entry = st.cast[castKey(who)];
@@ -2605,7 +2605,7 @@ function createDollLab(o) {
     const chips = people.length > 1 ? `<div class="doll-scene-who">${people.map((n) => `<button class="doll-btn${castKey(n) === castKey(who) ? " doll-btn-primary" : ""}" data-doll-focus="${esc2(n)}" title="${castKey(st.pin) === castKey(n) ? "Pinned: click to follow the story again" : "Show them (pinned while they're here)"}">${esc2(n)}${castKey(st.pin) === castKey(n) ? " \uD83D\uDCCC" : ""}</button>`).join("")}</div>` : "";
     const isBusy = busy.has(busyKey(who));
     const doll = entry ? `<div class="doll-hud">${renderDoll2(entry.look, { id: "scene" })}</div>` : `<p class="doll-dim">${isBusy ? `Dressing ${esc2(who)}…` : `No look for ${esc2(who)} yet.`}</p>${isBusy ? "" : `<button class="doll-btn" data-doll-scene-ask="${esc2(who)}">Dress ${esc2(who)}</button>`}`;
-    const foot = `<div class="doll-scene-foot"><span>${entry && isBusy ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="${esc2(who)}" title="Open their doll in the Doll tab">Edit</button></div>`;
+    const foot = `<div class="doll-scene-foot"><span>${entry && isBusy ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="${esc2(who)}" title="Open their doll in the LumiDoll tab">Edit</button></div>`;
     return { title: `With you · ${who}${pinned ? " \uD83D\uDCCC" : ""}`, body: `<div class="doll-scene">${chips}${doll}${foot}</div>` };
   }
   function dressNewcomer() {
@@ -2760,7 +2760,7 @@ function store(v) {
 }
 function panelHtml(lab, open) {
   const cols = [lab.hudSection(), lab.sceneSection()].filter((x) => !!x);
-  const head = `<div class="doll-panel-head"><span>Doll</span><button class="doll-btn doll-btn-ghost" data-doll-panel-toggle title="${open ? "Fold" : "Open"}">${open ? "▾" : "▸"}</button></div>`;
+  const head = `<div class="doll-panel-head"><span>LumiDoll</span><button class="doll-btn doll-btn-ghost" data-doll-panel-toggle title="${open ? "Fold" : "Open"}">${open ? "▾" : "▸"}</button></div>`;
   const body = `<div class="doll-panel-body">${cols.map((c) => `<div class="doll-panel-col"><h4 title="${esc2(c.title)}">${esc2(c.title)}</h4>${c.body}</div>`).join("")}</div>`;
   return { html: head + body, cols: cols.length };
 }
@@ -2775,7 +2775,7 @@ function createPanel(ctx, lab, onEdit) {
   const width = (cols) => open ? Math.max(1, cols) * COL_W + 16 : CLOSED.w;
   try {
     const vw = window.innerWidth || 1200;
-    widget = ctx.ui.createFloatWidget({ width: width(2), height: OPEN_H, initialPosition: saved ? { x: saved.x, y: saved.y } : { x: Math.max(8, vw - width(2) - 24), y: 120 }, snapToEdge: true, chromeless: true, tooltip: "Doll" });
+    widget = ctx.ui.createFloatWidget({ width: width(2), height: OPEN_H, initialPosition: saved ? { x: saved.x, y: saved.y } : { x: Math.max(8, vw - width(2) - 24), y: 120 }, snapToEdge: true, chromeless: true, tooltip: "LumiDoll" });
     widget.root.appendChild(el);
     widget.onDragEnd((p) => store({ x: p.x, y: p.y, open }));
   } catch (e) {
@@ -2960,11 +2960,11 @@ function setup(ctx) {
   const lab = createDollLab({ send, chatId, changed: () => renderAll() });
   const tab = ctx.ui.registerDrawerTab({
     id: "doll",
-    title: "Doll",
-    shortName: "Doll",
-    headerTitle: "Doll",
+    title: "LumiDoll",
+    shortName: "LumiDoll",
+    headerTitle: "LumiDoll",
     description: "Your doll and the person with you, dressed from the story",
-    keywords: ["doll", "outfit", "clothes", "avatar", "dress up", "paper doll"],
+    keywords: ["lumidoll", "doll", "outfit", "clothes", "avatar", "dress up", "paper doll"],
     iconSvg: ICON
   });
   cleanups.push(() => tab.destroy());

@@ -1,4 +1,4 @@
-// The Doll's styles. Colours come from Lumiverse's theme variables, so it follows
+// LumiDoll's styles. Colours come from Lumiverse's theme variables, so it follows
 // the user's theme. Every class starts with "doll-", so nothing clashes with Warp.
 
 export const STYLES = `

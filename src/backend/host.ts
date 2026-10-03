@@ -12,7 +12,7 @@ export function send(msg: BackendToFrontend, userId?: string) {
 }
 
 export function toast(level: "info" | "success" | "warning" | "error", message: string, userId?: string) {
-  try { spindle.toast[level](message, { title: "Doll", ...(userId ? { userId } : {}) }); } catch { /* no toasts here */ }
+  try { spindle.toast[level](message, { title: "LumiDoll", ...(userId ? { userId } : {}) }); } catch { /* no toasts here */ }
 }
 
 export function logError(where: string, err: unknown) {

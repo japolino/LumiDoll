@@ -217,7 +217,7 @@ describe("with Warp, the dolls follow Warp's words", () => {
     expect(looks().map((m) => m.warp?.outfit)).toEqual(["a grey hoodie and jeans", "a raincoat"]);
   });
 
-  test("Warp with nothing to say about this chat leaves the Doll on its own path", () => {
+  test("Warp with nothing to say about this chat leaves LumiDoll on its own path", () => {
     const lab = make();
     lab.onSettings(jevOn);
     lab.onChat({ chatId: "c1", character: "Marcus", user: "Kit" });

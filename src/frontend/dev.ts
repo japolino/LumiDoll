@@ -1,7 +1,7 @@
-// Try the Doll outside Lumiverse: bun run dev, then open the address it prints.
+// Try LumiDoll outside Lumiverse: bun run dev, then open the address it prints.
 // Everything but the helper and Jev works here; their buttons answer that they
 // need Lumiverse. "Pretend Warp" sends a warp-state-v1 event, and the log shows
-// what the Doll would ask its backend.
+// what LumiDoll would ask its backend.
 
 import { PRESETS } from "../doll/body.js";
 import { renderDoll } from "../doll/render.js";

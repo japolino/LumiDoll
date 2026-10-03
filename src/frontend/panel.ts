@@ -23,7 +23,7 @@ function store(v: Saved) { try { localStorage.setItem(KEY, JSON.stringify(v)); }
 /** The window's markup: one column per doll shown. */
 export function panelHtml(lab: DollLab, open: boolean): { html: string; cols: number } {
   const cols = [lab.hudSection(), lab.sceneSection()].filter((x): x is NonNullable<typeof x> => !!x);
-  const head = `<div class="doll-panel-head"><span>Doll</span><button class="doll-btn doll-btn-ghost" data-doll-panel-toggle title="${open ? "Fold" : "Open"}">${open ? "▾" : "▸"}</button></div>`;
+  const head = `<div class="doll-panel-head"><span>LumiDoll</span><button class="doll-btn doll-btn-ghost" data-doll-panel-toggle title="${open ? "Fold" : "Open"}">${open ? "▾" : "▸"}</button></div>`;
   const body = `<div class="doll-panel-body">${cols.map((c) => `<div class="doll-panel-col"><h4 title="${esc(c.title)}">${esc(c.title)}</h4>${c.body}</div>`).join("")}</div>`;
   return { html: head + body, cols: cols.length };
 }
@@ -40,7 +40,7 @@ export function createPanel(ctx: SpindleFrontendContext, lab: DollLab, onEdit: (
   const width = (cols: number) => (open ? Math.max(1, cols) * COL_W + 16 : CLOSED.w);
   try {
     const vw = window.innerWidth || 1200;
-    widget = ctx.ui.createFloatWidget({ width: width(2), height: OPEN_H, initialPosition: saved ? { x: saved.x, y: saved.y } : { x: Math.max(8, vw - width(2) - 24), y: 120 }, snapToEdge: true, chromeless: true, tooltip: "Doll" });
+    widget = ctx.ui.createFloatWidget({ width: width(2), height: OPEN_H, initialPosition: saved ? { x: saved.x, y: saved.y } : { x: Math.max(8, vw - width(2) - 24), y: 120 }, snapToEdge: true, chromeless: true, tooltip: "LumiDoll" });
     widget.root.appendChild(el);
     widget.onDragEnd((p) => store({ x: p.x, y: p.y, open }));
   } catch (e) {

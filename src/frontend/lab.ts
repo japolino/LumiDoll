@@ -1,4 +1,4 @@
-// The Doll tab: a preview with every control, the buttons that dress it from the
+// The LumiDoll tab: a preview with every control, the buttons that dress it from the
 // card, the persona, a description or the latest story, and the logic that keeps
 // each chat's dolls following the story (on its own, or through Warp).
 
@@ -24,7 +24,7 @@ function renderDoll(look: Look, opts: { id?: string } = {}): string {
 const KEY = "doll:last";
 const CHAT_KEY = (id: string) => `doll:chat:${id}`;
 const CHATS_KEY = "doll:chats";
-/** Where Warp kept the dolls before the Doll was its own extension: read once, never written. */
+/** Where Warp kept the dolls before LumiDoll was its own extension: read once, never written. */
 const OLD_KEY = "warp:doll";
 const OLD_CHAT_KEY = (id: string) => `warp:doll:chat:${id}`;
 
@@ -349,7 +349,7 @@ export function createDollLab(o: {
         if (!st.asked.includes(castKey(n))) st.asked.push(castKey(n));
         request(n, "profile", undefined, false); save(); o.changed(); return true;
       }
-      // "Edit": open their doll in the drawer (the page switches to the Doll tab itself).
+      // "Edit": open their doll in the drawer (the page switches to the LumiDoll tab itself).
       const n = b.dataset.dollEdit ?? "";
       if (n) {
         if (st.themName.trim()) putCast(st, st.themName, st.them, st.notes.them, Date.now());
@@ -472,7 +472,7 @@ export function createDollLab(o: {
     if (!prefs.hud) return null;
     ensure();
     const name = chat.chatId === loadedFor && chat.user ? chat.user : "You";
-    return { title: name, body: `<div class="doll-scene"><div class="doll-hud">${renderDoll(st.you, { id: "hud" })}</div><div class="doll-scene-foot"><span>${busy.has(busyKey("you")) ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="you" title="Open your doll in the Doll tab">Edit</button></div></div>` };
+    return { title: name, body: `<div class="doll-scene"><div class="doll-hud">${renderDoll(st.you, { id: "hud" })}</div><div class="doll-scene-foot"><span>${busy.has(busyKey("you")) ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="you" title="Open your doll in the LumiDoll tab">Edit</button></div></div>` };
   }
 
   function sceneSection(): Section | null {
@@ -481,7 +481,7 @@ export function createDollLab(o: {
     const people = here();
     const who = sceneFocus(people, st.pin, st.focus);
     if (!who) {
-      const hint = warp() ? "No one's with you right now." : "No one yet. Dress someone in the Doll tab, or open a chat with a character.";
+      const hint = warp() ? "No one's with you right now." : "No one yet. Dress someone in the LumiDoll tab, or open a chat with a character.";
       return { title: "With you", body: `<div class="doll-scene"><p class="doll-dim">${hint}</p></div>` };
     }
     const entry = st.cast[castKey(who)];
@@ -493,7 +493,7 @@ export function createDollLab(o: {
     const doll = entry
       ? `<div class="doll-hud">${renderDoll(entry.look, { id: "scene" })}</div>`
       : `<p class="doll-dim">${isBusy ? `Dressing ${esc(who)}…` : `No look for ${esc(who)} yet.`}</p>${isBusy ? "" : `<button class="doll-btn" data-doll-scene-ask="${esc(who)}">Dress ${esc(who)}</button>`}`;
-    const foot = `<div class="doll-scene-foot"><span>${entry && isBusy ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="${esc(who)}" title="Open their doll in the Doll tab">Edit</button></div>`;
+    const foot = `<div class="doll-scene-foot"><span>${entry && isBusy ? `<span class="doll-dim">Updating…</span>` : ""}</span><button class="doll-btn" data-doll-edit="${esc(who)}" title="Open their doll in the LumiDoll tab">Edit</button></div>`;
     return { title: `With you · ${who}${pinned ? " 📌" : ""}`, body: `<div class="doll-scene">${chips}${doll}${foot}</div>` };
   }
 

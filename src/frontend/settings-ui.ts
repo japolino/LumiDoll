@@ -1,4 +1,4 @@
-// The Doll's settings: what the status window shows, when the dolls follow the
+// LumiDoll's settings: what the status window shows, when the dolls follow the
 // story, the helper connection, and Jev (optional).
 
 import { classifierIssue, JEV_URL, OPENROUTER_JEV } from "../shared/classifier-config.js";

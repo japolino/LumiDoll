@@ -71,6 +71,6 @@ spindle.onFrontendMessage(async (raw, userId) => {
     }
   } catch (e) {
     logError(`frontend ${msg.type}`, e);
-    toast("error", `Doll: ${e instanceof Error ? e.message : String(e)}`, userId);
+    toast("error", `LumiDoll: ${e instanceof Error ? e.message : String(e)}`, userId);
   }
 });

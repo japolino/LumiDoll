@@ -1,6 +1,6 @@
 // Listening for Warp. Warp publishes its scene state as a window event
 // (warp-state-v1) whenever it changes; asking with warp-state-request-v1 makes it
-// send the state again. Without Warp nothing ever arrives, and the Doll reads the
+// send the state again. Without Warp nothing ever arrives, and LumiDoll reads the
 // story itself.
 
 import { cleanWarpState, WARP_STATE, WARP_STATE_REQUEST, type WarpStateV1 } from "../shared/warp-state.js";

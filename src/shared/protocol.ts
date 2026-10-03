@@ -1,4 +1,4 @@
-// Messages between the Doll's backend and frontend, and its settings.
+// Messages between LumiDoll's backend and frontend, and its settings.
 
 import { JEV_MODEL, JEV_URL } from "./classifier-config.js";
 

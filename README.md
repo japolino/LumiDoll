@@ -1,8 +1,8 @@
-# Doll
+# LumiDoll
 
 A drawn figure for you and for the person you're with in the story. A [Lumiverse](https://lumiverse.chat) extension.
 
-- **Doll** drawer tab: a preview with every control. 4 builds per sex that blend, 9 hairstyles, animal ears, tails and horns, and an outfit made of described garments (kind, cut, colour, pattern, material, wear) that fit any build. Ready-made outfits, and the look as JSON to copy or paste.
+- **LumiDoll** drawer tab: a preview with every control. 4 builds per sex that blend, 9 hairstyles, animal ears, tails and horns, and an outfit made of described garments (kind, cut, colour, pattern, material, wear) that fit any build. Ready-made outfits, and the look as JSON to copy or paste.
 - **Status window**: a small floating window with your doll and **With you**, the person the latest reply is about (or the one you pin). Drag it anywhere; the head folds it to a pill. Right-click it to hide it.
 - **Dress it** from your persona, from a character's card and lorebook, from a typed description, or from the latest replies ("Update from story" changes only what the story changed).
 - **Follows the story** on its own, if you want (see below).
@@ -13,13 +13,13 @@ It works on any card, with or without [Warp](https://github.com/japolino/warp). 
 ## Install
 
 1. In Lumiverse, open **Extensions** → **Install from Source**.
-2. Paste `https://github.com/japolino/warp-doll` and install. The built files (`dist/`) are in the repo.
+2. Paste `https://github.com/japolino/LumiDoll` and install. The built files (`dist/`) are in the repo.
 3. Enable the permissions it asks for:
 
 | Permission | Why |
 |---|---|
-| `generation` | The helper model writes looks; the Doll hears when a reply is finished; the list of connections in Settings |
-| `chat_mutation` | Reading the chat's latest replies (Lumiverse puts message reading under this permission). The Doll never changes a message |
+| `generation` | The helper model writes looks; LumiDoll hears when a reply is finished; the list of connections in Settings |
+| `chat_mutation` | Reading the chat's latest replies (Lumiverse puts message reading under this permission). LumiDoll never changes a message |
 | `chats` | Finding the chat's character |
 | `characters` | Reading the character's card |
 | `world_books` | Reading lorebook entries about a person |
@@ -46,7 +46,7 @@ Settings → **Jev**: turn on **Use Jev**, paste your TypeSafe key and press **S
 
 ## With Warp
 
-When [Warp](https://github.com/japolino/warp) runs a game in the chat, the Doll follows Warp instead of reading the story itself:
+When [Warp](https://github.com/japolino/warp) runs a game in the chat, LumiDoll follows Warp instead of reading the story itself:
 
 - **With you** is a person Warp says is present (`people[].present`): the one the reply names most, or the one you pin.
 - A doll is re-dressed **only when Warp's appearance or outfit text for that person changes**, and only that part (a new outfit keeps the body and hair). With Jev this is one Jev call; without Jev, one helper call. No call reads the story.
@@ -56,9 +56,9 @@ When [Warp](https://github.com/japolino/warp) runs a game in the chat, the Doll 
 The two extensions talk through window events in the page:
 
 - `warp-state-v1` (Warp → any): `{ version: 1, provider: "warp", chatId, messageId, you: { name, appearance?, outfit? }, people: [{ id, name, present, appearance?, outfit? }], … }`. Sent when Warp's state for the open chat changes.
-- `warp-state-request-v1` (any → Warp): `{ version: 1 }`. The Doll sends it on load and when you switch chats; Warp answers with `warp-state-v1`.
+- `warp-state-request-v1` (any → Warp): `{ version: 1 }`. LumiDoll sends it on load and when you switch chats; Warp answers with `warp-state-v1`.
 
-If Warp isn't installed, or has nothing to say about a chat (no people, no outfit), the Doll works on its own as above.
+If Warp isn't installed, or has nothing to say about a chat (no people, no outfit), LumiDoll works on its own as above.
 
 ## Where the dolls are kept
 
@@ -73,7 +73,7 @@ bun run build    # dist/backend.js and dist/frontend.js
 bun run dev      # the dev page at http://localhost:5178/
 ```
 
-The dev page runs the Doll tab and the status window outside Lumiverse, shows the same look on every build, and has a **Pretend Warp** box that sends a `warp-state-v1` event. The helper and Jev don't run there; the log shows what the Doll would ask its backend.
+The dev page runs the LumiDoll tab and the status window outside Lumiverse, shows the same look on every build, and has a **Pretend Warp** box that sends a `warp-state-v1` event. The helper and Jev don't run there; the log shows what LumiDoll would ask its backend.
 
 Tests use a pretend host (`src/backend/fake-host.ts`): no network, no models, no keys.
 

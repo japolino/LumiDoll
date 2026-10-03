@@ -26,11 +26,11 @@ export function setup(ctx: SpindleFrontendContext) {
 
   const tab = ctx.ui.registerDrawerTab({
     id: "doll",
-    title: "Doll",
-    shortName: "Doll",
-    headerTitle: "Doll",
+    title: "LumiDoll",
+    shortName: "LumiDoll",
+    headerTitle: "LumiDoll",
     description: "Your doll and the person with you, dressed from the story",
-    keywords: ["doll", "outfit", "clothes", "avatar", "dress up", "paper doll"],
+    keywords: ["lumidoll", "doll", "outfit", "clothes", "avatar", "dress up", "paper doll"],
     iconSvg: ICON,
   });
   cleanups.push(() => tab.destroy());
