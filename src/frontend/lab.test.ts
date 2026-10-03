@@ -6,6 +6,7 @@ import { WARP_STATE, WARP_STATE_REQUEST, type WarpStateV1 } from "../shared/warp
 import { createDollLab, shownNote } from "./lab.js";
 import { panelHtml } from "./panel.js";
 import { cleanChat, MAX_CAST, putCast, sceneFocus, touchChat } from "./scene.js";
+import { followHint, handleSettings, renderSettings } from "./settings-ui.js";
 import { connectWarp } from "./warp-bridge.js";
 
 class MemStore {
@@ -248,5 +249,40 @@ describe("with Warp, the dolls follow Warp's words", () => {
     bridge.stop();
     target.dispatchEvent(new CustomEvent(WARP_STATE, { detail: state() }));
     expect(got.length).toBe(1);
+  });
+});
+
+describe("settings", () => {
+  const view = (o: Partial<{ jev: boolean; follow: "jev" | "always" | "off"; ready: boolean; key: boolean }> = {}) => ({
+    settings: { ...DEFAULT_SETTINGS, jev: o.jev ?? false, follow: o.follow ?? "jev" }, jevKeySet: o.key ?? false, jevReady: o.ready ?? false, connections: [{ id: "fast", name: "Fast <helper>" }],
+  });
+
+  test("what following does, in a sentence, for each case", () => {
+    expect(followHint(view(), false)).toContain("Off for now");
+    expect(followHint(view({ follow: "always" }), false)).toContain("one call per doll");
+    expect(followHint(view({ ready: true }), false)).toContain("Jev checks who it's about");
+    expect(followHint(view({ ready: true }), true)).toContain("Warp is running this chat");
+    expect(followHint(view({ follow: "off", ready: true }), true)).toContain("only when you press");
+  });
+
+  test("Jev's fields show only when it's on; names are escaped; a chat URL is flagged", () => {
+    const off = renderSettings(view(), { hud: true, scene: true }, false);
+    expect(off).not.toContain("data-jevkey");
+    expect(off).toContain("Fast &lt;helper&gt;");
+    const on = renderSettings({ ...view({ jev: true, key: true }), settings: { ...DEFAULT_SETTINGS, jev: true, jevUrl: "https://openrouter.ai/api/v1/chat/completions" } }, { hud: true, scene: false }, false);
+    expect(on).toContain("data-jevkey");
+    expect(on).toContain("Key stored encrypted");
+    expect(on).toContain('role="alert"');
+  });
+
+  test("changes go to the backend as patches; panel choices stay in the page", () => {
+    const sentNow: FrontendToBackend[] = [];
+    const prefs: unknown[] = [];
+    const change = (el: Record<string, unknown>) => handleSettings({ type: "change", target: { matches: () => true, closest: () => null, ...el } } as unknown as Event, {} as HTMLElement, { send: (m) => sentNow.push(m), prefs: (p) => prefs.push(p) });
+    change({ dataset: { setting: "follow" }, type: "select-one", value: "always" });
+    change({ dataset: { setting: "jev" }, type: "checkbox", checked: true });
+    change({ dataset: { dollPref: "scene" }, type: "checkbox", checked: false });
+    expect(sentNow).toEqual([{ type: "settings", patch: { follow: "always" } }, { type: "settings", patch: { jev: true } }]);
+    expect(prefs).toEqual([{ scene: false }]);
   });
 });
