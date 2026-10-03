@@ -30,12 +30,22 @@ export async function askFocus(jev: Classifier, user: string, text: string, peop
   return people[i] ?? null;
 }
 
-/** The whole follow-up for one reply. Sends a doll_focus, then a doll_look per doll that was checked. */
+/** The whole follow-up for one reply. Sends a doll_focus, then a doll_look per doll that was checked. The player's doll always gets an answer (maybe "no change"), so the page never waits on it forever. */
 export async function follow(m: DollFollow, userId?: string, deps: { settings?: Settings; jev?: Classifier | null } = {}): Promise<void> {
+  let youDone = false;
+  try {
+    youDone = await run(m, userId, deps);
+  } finally {
+    if (m.you && !youDone) send({ type: "doll_look", who: "you", chatId: m.chatId, look: null, note: "", auto: true }, userId);
+  }
+}
+
+/** True once the player's doll has been answered. */
+async function run(m: DollFollow, userId: string | undefined, deps: { settings?: Settings; jev?: Classifier | null }): Promise<boolean> {
   const settings = deps.settings ?? await getSettings(userId);
-  if (settings.follow === "off") return;
+  if (settings.follow === "off") return false;
   const jev = deps.jev !== undefined ? deps.jev : await getJev(settings, userId).catch(() => null);
-  if (!jev && settings.follow !== "always") return;
+  if (!jev && settings.follow !== "always") return false;
   const opts = { settings, jev };
   const people = uniqueNames(Array.isArray(m.people) ? m.people : []);
   const looks = new Map<string, unknown>();
@@ -74,4 +84,5 @@ export async function follow(m: DollFollow, userId?: string, deps: { settings?: 
   const [you, them] = await Promise.all([youP, themP]);
   if (you) send(you, userId);
   if (them) send(them, userId);
+  return !!you;
 }

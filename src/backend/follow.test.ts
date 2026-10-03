@@ -67,7 +67,10 @@ describe("following the story without Warp", () => {
 
   test("without Jev, 'with Jev' mode does nothing; 'always' asks the helper once per doll", async () => {
     await follow(req(), undefined, { settings: { ...DEFAULT_SETTINGS, follow: "jev" }, jev: null });
-    expect(h.sent).toEqual([]);
+    // Only the release of the player's doll, so the page doesn't wait for it.
+    expect(h.sent).toEqual([{ type: "doll_look", who: "you", chatId: "c1", look: null, note: "", auto: true }]);
+    expect(h.quiet.length).toBe(0);
+    h.sent = [];
     await follow(req({ cast: [{ name: "Rhea Vos", look: defaultLook("f") }] }), undefined, { settings: { ...DEFAULT_SETTINGS, follow: "always" }, jev: null });
     expect(h.sent.find((m) => m.type === "doll_focus")!.name).toBe("Rhea Vos");
     expect(h.quiet.length).toBe(2);
@@ -75,7 +78,9 @@ describe("following the story without Warp", () => {
   });
 
   test("'only when I ask' never runs on its own", async () => {
-    await follow(req(), undefined, { settings: { ...DEFAULT_SETTINGS, follow: "off", jev: true }, jev: pretendJev("p0") });
+    const jev = pretendJev("p0");
+    await follow(req({ you: null }), undefined, { settings: { ...DEFAULT_SETTINGS, follow: "off", jev: true }, jev });
     expect(h.sent).toEqual([]);
+    expect(jev.calls).toBe(0);
   });
 });

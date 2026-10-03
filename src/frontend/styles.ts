@@ -36,7 +36,7 @@ export const STYLES = `
 .doll-section { border-top: 1px solid var(--doll-border); padding-top: 8px; }
 .doll-section > summary { cursor: pointer; list-style: none; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--doll-dim); display: flex; justify-content: space-between; user-select: none; }
 .doll-section > summary::-webkit-details-marker { display: none; }
-.doll-section > summary::after { content: "▸"; }
+.doll-section > summary::after { content: "▸"; display: inline-block; }
 .doll-section[open] > summary::after { transform: rotate(90deg); }
 .doll-toggle { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 4px 0; cursor: pointer; }
 .doll-toggle small { grid-column: 1; color: var(--doll-dim); }

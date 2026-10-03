@@ -35,6 +35,7 @@ export function createPanel(ctx: SpindleFrontendContext, lab: DollLab, onEdit: (
   const el = document.createElement("div");
   el.className = "doll-panel";
   let size = { w: 0, h: 0 };
+  let shown = true;
 
   const width = (cols: number) => (open ? Math.max(1, cols) * COL_W + 16 : CLOSED.w);
   try {
@@ -65,7 +66,7 @@ export function createPanel(ctx: SpindleFrontendContext, lab: DollLab, onEdit: (
   function render() {
     if (!widget) return;
     const { html, cols } = panelHtml(lab, open);
-    widget.setVisible(cols > 0);
+    if (shown !== cols > 0) { shown = cols > 0; widget.setVisible(shown); }
     if (!cols) return;
     el.classList.toggle("doll-closed", !open);
     el.innerHTML = html;

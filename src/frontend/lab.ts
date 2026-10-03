@@ -556,7 +556,7 @@ export function createDollLab(o: {
         o.send({
           type: "doll_follow", chatId: m.chatId, messageId: m.messageId, people: names, pin: st.pin,
           you: you ? st.you : null,
-          cast: names.filter((n) => st.cast[castKey(n)] && !busy.has(busyKey(n))).map((n) => ({ name: n, look: st.cast[castKey(n)].look })),
+          cast: names.filter((n) => st.cast[castKey(n)]).map((n) => ({ name: n, look: st.cast[castKey(n)].look })),
           asked: st.asked,
         });
       }
